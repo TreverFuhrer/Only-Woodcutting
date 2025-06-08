@@ -1,0 +1,62 @@
+# ========== Java & Gradle ==========
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# Build output
+/build/
+/out/
+
+# Gradle
+.gradle/
+/**/build/
+!gradle/wrapper/gradle-wrapper.jar
+gradle-app.setting
+gradle-app.properties
+
+# IDEs
+## IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+## Eclipse
+*.classpath
+*.project
+*.settings/
+
+## VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ========== Minecraft Modding / Fabric ==========
+/run/
+/remappedSrc/
+/logs/
+/.loom/
+/.gradle/
+/cache/
+/.hotswap/
+
+# ForgeGradle cache (not used in Fabric, but safe just in case)
+/.idea/libraries/Forge*.xml
+
+# Fabric API-generated files
+fabric.mod.json (if generated, otherwise keep if manual)
+
+/src/main/generated/
+
+# Other
+*.tmp
+*.bak
+*.swp
+*.swo
+*.orig
