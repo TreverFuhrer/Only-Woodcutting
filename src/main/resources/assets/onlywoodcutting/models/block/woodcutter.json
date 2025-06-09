@@ -1,10 +1,11 @@
-{   "parent": "block/block",
+{   
+    "parent": "block/block",
     "textures": {
-        "particle": "block/woodcutter_bottom",
-        "bottom": "block/woodcutter_bottom",
-        "top": "block/woodcutter_top",
-        "side": "block/woodcutter_side",
-        "saw": "block/woodcutter_saw"
+        "particle": "onlywoodcutting:block/woodcutter_bottom",
+        "bottom": "onlywoodcutting:block/woodcutter_bottom",
+        "top": "onlywoodcutting:block/woodcutter_top",
+        "side": "onlywoodcutting:block/woodcutter_side",
+        "saw": "onlywoodcutting:block/woodcutter_saw"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],
