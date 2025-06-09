@@ -28,12 +28,12 @@ public class ModBlocks {
     // Helper method register block
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
-        return Registry.register(Registries.BLOCK, Identifier.of(OnlyWoodcutting.MOD_ID), block);
+        return Registry.register(Registries.BLOCK, Identifier.of(OnlyWoodcutting.MOD_ID, name), block);
     }
 
     // Helper method register item for block
-    private static Item registerBlockItem(String name, Block block) {
-        return Registry.register(Registries.ITEM, Identifier.of(OnlyWoodcutting.MOD_ID, name),
+    private static void registerBlockItem(String name, Block block) {
+        Registry.register(Registries.ITEM, Identifier.of(OnlyWoodcutting.MOD_ID, name),
                 new BlockItem(block, new Item.Settings()));
     }
     
