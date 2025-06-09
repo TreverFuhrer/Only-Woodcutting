@@ -1,6 +1,0 @@
-{
-    "parent": "minecraft:item/generated",
-    "texture": {
-        "layer0": "onlywoodcutting:item/wood_cutter"
-    }
-}
