@@ -1,6 +1,7 @@
 package net.toki.onlywoodcutting;
 
 import net.fabricmc.api.ModInitializer;
+import net.toki.onlywoodcutting.item.ModItems;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,6 @@ public class OnlyWoodcutting implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
+		ModItems.registerModItems();
 	}
 }
