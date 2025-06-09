@@ -3,13 +3,13 @@
 	"id": "onlywoodcutting",
 	"version": "${version}",
 	"name": "Only Woodcutting",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Only a woodcutting block! Stonecutter for wood finally!",
 	"authors": [
-		"Me!"
+		"Toki!"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://treverfuhrer.com/",
+		"sources": "https://github.com/TreverFuhrer/Only-Woodcutting/"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/onlywoodcutting/icon.png",
@@ -20,6 +20,9 @@
 		],
 		"fabric-datagen": [
 			"net.toki.onlywoodcutting.OnlyWoodcuttingDataGenerator"
+		],
+		"client": [
+			"net.toki.onlywoodcutting.OnlyWoodcuttingClient"
 		]
 	},
 	"mixins": [
