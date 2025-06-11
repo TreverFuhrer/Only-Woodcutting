@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingResultInventory;
@@ -25,6 +24,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.toki.onlywoodcutting.block.ModBlocks;
 
 public class WoodcutterScreenHandler extends ScreenHandler {
 
@@ -127,7 +127,7 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 
 	@Override
 	public boolean canUse(PlayerEntity player) {
-		return canUse(this.context, player, Blocks.STONECUTTER);
+		return canUse(this.context, player, ModBlocks.WOODCUTTER);
 	}
 
 	@Override
