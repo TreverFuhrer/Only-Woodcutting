@@ -2,14 +2,14 @@
 	"schemaVersion": 1,
 	"id": "onlywoodcutting",
 	"version": "${version}",
-	"name": "Only Woodcutting",
-	"description": "Only a woodcutting block! Stonecutter for wood finally!",
+	"name": "OnlyWoodcutting",
+	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
-		"Toki!"
+		"Me!"
 	],
 	"contact": {
-		"homepage": "https://treverfuhrer.com/",
-		"sources": "https://github.com/TreverFuhrer/Only-Woodcutting/"
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/onlywoodcutting/icon.png",
@@ -18,19 +18,23 @@
 		"main": [
 			"net.toki.onlywoodcutting.OnlyWoodcutting"
 		],
-		"fabric-datagen": [
-			"net.toki.onlywoodcutting.OnlyWoodcuttingDataGenerator"
-		],
 		"client": [
 			"net.toki.onlywoodcutting.OnlyWoodcuttingClient"
+		],
+		"fabric-datagen": [
+			"net.toki.onlywoodcutting.OnlyWoodcuttingDataGenerator"
 		]
 	},
 	"mixins": [
-		"onlywoodcutting.mixins.json"
+		"onlywoodcutting.mixins.json",
+		{
+			"config": "onlywoodcutting.client.mixins.json",
+			"environment": "client"
+		}
 	],
 	"depends": {
 		"fabricloader": ">=0.16.14",
-		"minecraft": "~1.21.5",
+		"minecraft": "~1.21.1",
 		"java": ">=21",
 		"fabric-api": "*"
 	},

@@ -1,62 +1,51 @@
-# ========== Java & Gradle ==========
+# Java build files
 *.class
 *.jar
 *.war
 *.ear
 
-# Logs
-*.log
-
-# Build output
-/build/
-/out/
-
 # Gradle
 .gradle/
-/**/build/
+build/
 !gradle/wrapper/gradle-wrapper.jar
+!gradlew
+!gradlew.bat
 gradle-app.setting
-gradle-app.properties
+
+# Fabric-specific
+run/
+out/
+*.log
+logs/
+remappedSrc/
+remappedAssets/
+.cache/
+.minecraft/
+fabric-example-mod.iml
 
 # IDEs
-## IntelliJ IDEA
+# IntelliJ
 .idea/
 *.iml
-*.ipr
 *.iws
+out/
 
-## Eclipse
-*.classpath
-*.project
-*.settings/
+# Eclipse
+*.launch
+.settings/
+.metadata/
+bin/
+tmp/
 
-## VS Code
+# VS Code
 .vscode/
 
-# OS
+# OS specific
 .DS_Store
 Thumbs.db
 
-# ========== Minecraft Modding / Fabric ==========
-/run/
-/remappedSrc/
-/logs/
-/.loom/
-/.gradle/
-/cache/
-/.hotswap/
-
-# ForgeGradle cache (not used in Fabric, but safe just in case)
-/.idea/libraries/Forge*.xml
-
-# Fabric API-generated files
-fabric.mod.json (if generated, otherwise keep if manual)
-
-/src/main/generated/
-
 # Other
+*.lock
 *.tmp
 *.bak
 *.swp
-*.swo
-*.orig
