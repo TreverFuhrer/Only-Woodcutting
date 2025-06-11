@@ -152,6 +152,10 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 			this.inputStack = itemStack.copy();
 			this.updateInput(inventory, itemStack);
 		}
+		System.out.println("=== All loaded woodcutting recipes ===");
+		for (RecipeEntry<WoodcuttingRecipe> recipe : this.world.getRecipeManager().listAllOfType(ModRecipes.WOODCUTTING)) {
+			System.out.println("Recipe: " + recipe.id());
+		}
 	}
 
 	private static WoodcuttingRecipeInput createRecipeInput(Inventory inventory) {
@@ -164,20 +168,32 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 		this.outputSlot.setStackNoCallbacks(ItemStack.EMPTY);
 		if (!stack.isEmpty()) {
 			this.availableRecipes = this.world.getRecipeManager().getAllMatches(ModRecipes.WOODCUTTING, createRecipeInput(input), this.world);
+			System.out.println("Woodcutter: Updating input with " + stack);
+			System.out.println("Woodcutter: Found " + this.availableRecipes.size() + " matching recipes");
+
+			for (RecipeEntry<WoodcuttingRecipe> entry : this.availableRecipes) {
+    			System.out.println("Matched recipe: " + entry.id() + " -> " + entry.value().getResult(null).getItem());
+			}
+		}
+		else {
+			System.out.println("Stack is empty");
 		}
 	}
 
 	void populateResult() {
 		if (!this.availableRecipes.isEmpty() && this.isInBounds(this.selectedRecipe.get())) {
 			RecipeEntry<WoodcuttingRecipe> recipeEntry = (RecipeEntry<WoodcuttingRecipe>)this.availableRecipes.get(this.selectedRecipe.get());
+			System.out.println("Populating result with recipe: " + recipeEntry.id());
 			ItemStack itemStack = recipeEntry.value().craft(createRecipeInput(this.input), this.world.getRegistryManager());
+			System.out.println("Craft result: " + itemStack);
 			if (itemStack.isItemEnabled(this.world.getEnabledFeatures())) {
 				this.output.setLastRecipe(recipeEntry);
 				this.outputSlot.setStackNoCallbacks(itemStack);
 			} else {
 				this.outputSlot.setStackNoCallbacks(ItemStack.EMPTY);
 			}
-		} else {
+		} 
+		else {
 			this.outputSlot.setStackNoCallbacks(ItemStack.EMPTY);
 		}
 

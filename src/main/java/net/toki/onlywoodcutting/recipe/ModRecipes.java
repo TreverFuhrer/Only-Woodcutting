@@ -12,11 +12,12 @@ public class ModRecipes {
     public static final RecipeType<WoodcuttingRecipe> WOODCUTTING =
         new RecipeType<>() {
             public String toString() {
-                return "onlywoodcutting:woodcutting";
+                return "woodcutting";
             }
         };
 
     public static void register() {
         Registry.register(Registries.RECIPE_TYPE, Identifier.of(OnlyWoodcutting.MOD_ID, "woodcutting"), WOODCUTTING);
+        System.out.println("Woodcutting recipe type registered: " + WOODCUTTING);
     }
 }

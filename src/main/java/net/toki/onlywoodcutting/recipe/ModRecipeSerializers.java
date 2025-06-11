@@ -13,5 +13,6 @@ public class ModRecipeSerializers {
 
     public static void register() {
         Registry.register(Registries.RECIPE_SERIALIZER, Identifier.of(OnlyWoodcutting.MOD_ID, "woodcutting"), WOODCUTTING);
+        System.out.println("Woodcutting serializer registered: " + WOODCUTTING);
     }
 }
