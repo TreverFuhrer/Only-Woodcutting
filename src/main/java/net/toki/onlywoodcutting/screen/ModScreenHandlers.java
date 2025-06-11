@@ -12,8 +12,9 @@ import net.toki.onlywoodcutting.screen.custom.WoodcutterScreenHandler;
 public class ModScreenHandlers {
 
     public static final ScreenHandlerType<WoodcutterScreenHandler> WOODCUTTER_SCREEN_HANDLER =
-            Registry.register(Registries.SCREEN_HANDLER, Identifier.of(OnlyWoodcutting.MOD_ID, "woodcutter_screen_handler"),
-                    new ExtendedScreenHandlerType<>(WoodcutterScreenHandler::new, BlockPos.PACKET_CODEC));
+            Registry.register(Registries.SCREEN_HANDLER, 
+                Identifier.of(OnlyWoodcutting.MOD_ID, "woodcutter_screen_handler"),
+                new ExtendedScreenHandlerType<>(WoodcutterScreenHandler::new, BlockPos.PACKET_CODEC));
 
     
     public static void registerScreenHandlers() {
