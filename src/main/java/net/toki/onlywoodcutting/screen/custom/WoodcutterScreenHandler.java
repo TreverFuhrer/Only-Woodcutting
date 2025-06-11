@@ -12,8 +12,6 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -26,6 +24,7 @@ import net.minecraft.world.World;
 import net.toki.onlywoodcutting.block.ModBlocks;
 import net.toki.onlywoodcutting.recipe.ModRecipes;
 import net.toki.onlywoodcutting.recipe.custom.WoodcuttingRecipe;
+import net.toki.onlywoodcutting.recipe.custom.WoodcuttingRecipeInput;
 import net.toki.onlywoodcutting.screen.ModScreenHandlers;
 
 public class WoodcutterScreenHandler extends ScreenHandler {
@@ -155,8 +154,8 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 		}
 	}
 
-	private static SingleStackRecipeInput createRecipeInput(Inventory inventory) {
-		return new SingleStackRecipeInput(inventory.getStack(0));
+	private static WoodcuttingRecipeInput createRecipeInput(Inventory inventory) {
+		return new WoodcuttingRecipeInput(inventory.getStack(0));
 	}
 
 	private void updateInput(Inventory input, ItemStack stack) {
@@ -218,7 +217,7 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 				if (!this.insertItem(itemStack2, 2, 38, false)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (this.world.getRecipeManager().getFirstMatch(ModRecipes.WOODCUTTING, new SingleStackRecipeInput(itemStack2), this.world).isPresent()) {
+			} else if (this.world.getRecipeManager().getFirstMatch(ModRecipes.WOODCUTTING, new WoodcuttingRecipeInput(itemStack2), this.world).isPresent()) {
 				if (!this.insertItem(itemStack2, 0, 1, false)) {
 					return ItemStack.EMPTY;
 				}
