@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.serialization.MapCodec;
 
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -12,10 +13,11 @@ import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.text.Text;
@@ -52,7 +54,7 @@ public class WoodcutterBlock extends Block {
 	}
 
 	@Override
-	protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 		if (world.isClient) {
 			return ActionResult.SUCCESS;
 		} else {
@@ -64,10 +66,23 @@ public class WoodcutterBlock extends Block {
 
 	@Nullable
 	@Override
-	protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-		return new SimpleNamedScreenHandlerFactory(
-			(syncId, playerInventory, player) -> new WoodcutterScreenHandler(syncId, playerInventory, ScreenHandlerContext.create(world, pos)), TITLE
-		);
+	public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+		return new ExtendedScreenHandlerFactory<BlockPos>() {
+            @Override
+            public BlockPos getScreenOpeningData(ServerPlayerEntity player) {
+                return pos;
+            }
+
+            @Override
+            public Text getDisplayName() {
+                return TITLE;
+            }
+
+            @Override
+            public WoodcutterScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+                return new WoodcutterScreenHandler(syncId, playerInventory, ScreenHandlerContext.create(world, pos));
+            }
+        };
 	}
 
 	@Override
@@ -104,29 +119,4 @@ public class WoodcutterBlock extends Block {
 	protected boolean canPathfindThrough(BlockState state, NavigationType type) {
 		return false;
 	}
-
-
-
-
-    // public WoodcutterBlock(Settings settings) {
-    //     super(settings);
-    // }
-    
-    // @Override
-    // protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-    //     return new SimpleNamedScreenHandlerFactory(
-    //         (syncId, inv, player) -> 
-    //             new WoodcutterScreenHandler(syncId, inv, pos),
-    //         Text.translatable("container.woodcutter")
-    //     );
-    // }
-
-    // @Override
-    // protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-    //     if (world.isClient) {
-    //         return ActionResult.SUCCESS;
-    //     }
-    //     player.openHandledScreen(this.createScreenHandlerFactory(state, world, pos));
-    //     return ActionResult.CONSUME;
-    // }
 }
