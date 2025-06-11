@@ -163,13 +163,8 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 		this.selectedRecipe.set(-1);
 		this.outputSlot.setStackNoCallbacks(ItemStack.EMPTY);
 		if (!stack.isEmpty()) {
-        	this.availableRecipes = this.world.getRecipeManager()
-        	    .getAllMatches(ModRecipes.WOODCUTTING, createRecipeInput(input), this.world);
-        	if (!this.availableRecipes.isEmpty()) {
-        	    this.selectedRecipe.set(0);
-        	    this.populateResult();
-        	}
-    	}
+			this.availableRecipes = this.world.getRecipeManager().getAllMatches(ModRecipes.WOODCUTTING, createRecipeInput(input), this.world);
+		}
 	}
 
 	void populateResult() {
