@@ -12,7 +12,7 @@ public class ModRecipes {
     public static final RecipeType<WoodcuttingRecipe> WOODCUTTING =
         new RecipeType<>() {
             public String toString() {
-                return "woodcutting";
+                return "onlywoodcutting:woodcutting";
             }
         };
 

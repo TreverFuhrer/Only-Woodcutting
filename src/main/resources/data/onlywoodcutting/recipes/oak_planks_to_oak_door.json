@@ -1,8 +1,8 @@
 {
   "type": "onlywoodcutting:woodcutting",
-  "ingredient": {
-    "item": "minecraft:oak_planks"
-  },
-  "result": "minecraft:oak_door",
-  "count": 1
+  "ingredient": { "item": "minecraft:oak_planks" },
+  "result": {
+    "item": "minecraft:oak_door",
+    "count": 2
+  }
 }
