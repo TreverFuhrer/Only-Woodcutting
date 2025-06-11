@@ -13,7 +13,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.StonecuttingRecipe;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
@@ -25,6 +24,9 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.toki.onlywoodcutting.block.ModBlocks;
+import net.toki.onlywoodcutting.recipe.ModRecipes;
+import net.toki.onlywoodcutting.recipe.custom.WoodcuttingRecipe;
+import net.toki.onlywoodcutting.screen.ModScreenHandlers;
 
 public class WoodcutterScreenHandler extends ScreenHandler {
 
@@ -37,7 +39,7 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 	private final ScreenHandlerContext context;
 	private final Property selectedRecipe = Property.create();
 	private final World world;
-	private List<RecipeEntry<StonecuttingRecipe>> availableRecipes = Lists.<RecipeEntry<StonecuttingRecipe>>newArrayList();
+	private List<RecipeEntry<WoodcuttingRecipe>> availableRecipes = Lists.<RecipeEntry<WoodcuttingRecipe>>newArrayList();
 	private ItemStack inputStack = ItemStack.EMPTY;
 	long lastTakeTime;
 	final Slot inputSlot;
@@ -62,7 +64,7 @@ public class WoodcutterScreenHandler extends ScreenHandler {
     }
 
 	public WoodcutterScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
-		super(ScreenHandlerType.STONECUTTER, syncId);
+		super(ModScreenHandlers.WOODCUTTER_SCREEN_HANDLER, syncId);
 		this.context = context;
 		this.world = playerInventory.player.getWorld();
 		this.inputSlot = this.addSlot(new Slot(this.input, 0, 20, 33));
@@ -113,7 +115,7 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 		return this.selectedRecipe.get();
 	}
 
-	public List<RecipeEntry<StonecuttingRecipe>> getAvailableRecipes() {
+	public List<RecipeEntry<WoodcuttingRecipe>> getAvailableRecipes() {
 		return this.availableRecipes;
 	}
 
@@ -162,13 +164,13 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 		this.selectedRecipe.set(-1);
 		this.outputSlot.setStackNoCallbacks(ItemStack.EMPTY);
 		if (!stack.isEmpty()) {
-			this.availableRecipes = this.world.getRecipeManager().getAllMatches(RecipeType.STONECUTTING, createRecipeInput(input), this.world);
+			this.availableRecipes = this.world.getRecipeManager().getAllMatches(ModRecipes.WOODCUTTING, createRecipeInput(input), this.world);
 		}
 	}
 
 	void populateResult() {
 		if (!this.availableRecipes.isEmpty() && this.isInBounds(this.selectedRecipe.get())) {
-			RecipeEntry<StonecuttingRecipe> recipeEntry = (RecipeEntry<StonecuttingRecipe>)this.availableRecipes.get(this.selectedRecipe.get());
+			RecipeEntry<WoodcuttingRecipe> recipeEntry = (RecipeEntry<WoodcuttingRecipe>)this.availableRecipes.get(this.selectedRecipe.get());
 			ItemStack itemStack = recipeEntry.value().craft(createRecipeInput(this.input), this.world.getRegistryManager());
 			if (itemStack.isItemEnabled(this.world.getEnabledFeatures())) {
 				this.output.setLastRecipe(recipeEntry);
@@ -185,7 +187,7 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 
 	@Override
 	public ScreenHandlerType<?> getType() {
-		return ScreenHandlerType.STONECUTTER;
+		return ModScreenHandlers.WOODCUTTER_SCREEN_HANDLER;
 	}
 
 	public void setContentsChangedListener(Runnable contentsChangedListener) {
@@ -216,7 +218,7 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 				if (!this.insertItem(itemStack2, 2, 38, false)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (this.world.getRecipeManager().getFirstMatch(RecipeType.STONECUTTING, new SingleStackRecipeInput(itemStack2), this.world).isPresent()) {
+			} else if (this.world.getRecipeManager().getFirstMatch(ModRecipes.WOODCUTTING, new SingleStackRecipeInput(itemStack2), this.world).isPresent()) {
 				if (!this.insertItem(itemStack2, 0, 1, false)) {
 					return ItemStack.EMPTY;
 				}

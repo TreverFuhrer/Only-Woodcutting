@@ -17,7 +17,7 @@ public class ModScreenHandlers {
                 new ExtendedScreenHandlerType<>(WoodcutterScreenHandler::new, BlockPos.PACKET_CODEC));
 
     
-    public static void registerScreenHandlers() {
+    public static void register() {
         OnlyWoodcutting.LOGGER.info("Registering Screen Handlers for " + OnlyWoodcutting.MOD_ID);
     }
 }
