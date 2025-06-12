@@ -42,7 +42,7 @@ public class ModBlocks {
     public static void register() {
         OnlyWoodcutting.LOGGER.info("Registering Mod Blocks for " + OnlyWoodcutting.MOD_ID);
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> {
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
             entries.add(ModBlocks.WOODCUTTER);
         });
     }
