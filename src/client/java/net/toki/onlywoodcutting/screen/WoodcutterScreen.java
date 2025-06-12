@@ -12,6 +12,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.toki.onlywoodcutting.OnlyWoodcutting;
 import net.toki.onlywoodcutting.recipe.custom.WoodcuttingRecipe;
 import net.toki.onlywoodcutting.screen.custom.WoodcutterScreenHandler;
 
@@ -22,16 +23,7 @@ public class WoodcutterScreen extends HandledScreen<WoodcutterScreenHandler> {
 	private static final Identifier RECIPE_SELECTED_TEXTURE = Identifier.ofVanilla("container/stonecutter/recipe_selected");
 	private static final Identifier RECIPE_HIGHLIGHTED_TEXTURE = Identifier.ofVanilla("container/stonecutter/recipe_highlighted");
 	private static final Identifier RECIPE_TEXTURE = Identifier.ofVanilla("container/stonecutter/recipe");
-	private static final Identifier TEXTURE = Identifier.ofVanilla("textures/gui/container/stonecutter.png");
-	// private static final int SCROLLBAR_WIDTH = 12;
-	// private static final int SCROLLBAR_HEIGHT = 15;
-	// private static final int RECIPE_LIST_COLUMNS = 4;
-	// private static final int RECIPE_LIST_ROWS = 3;
-	// private static final int RECIPE_ENTRY_WIDTH = 16;
-	// private static final int RECIPE_ENTRY_HEIGHT = 18;
-	// private static final int SCROLLBAR_AREA_HEIGHT = 54;
-	// private static final int RECIPE_LIST_OFFSET_X = 52;
-	// private static final int RECIPE_LIST_OFFSET_Y = 14;
+	private static final Identifier TEXTURE = Identifier.of(OnlyWoodcutting.MOD_ID, "textures/gui/container/woodcutter.png");
 	private float scrollAmount;
 	private boolean mouseClicked;
 	private int scrollOffset;
@@ -95,9 +87,11 @@ public class WoodcutterScreen extends HandledScreen<WoodcutterScreenHandler> {
 			Identifier identifier;
 			if (i == this.handler.getSelectedRecipe()) {
 				identifier = RECIPE_SELECTED_TEXTURE;
-			} else if (mouseX >= k && mouseY >= m && mouseX < k + 16 && mouseY < m + 18) {
+			} 
+			else if (mouseX >= k && mouseY >= m && mouseX < k + 16 && mouseY < m + 18) {
 				identifier = RECIPE_HIGHLIGHTED_TEXTURE;
-			} else {
+			} 
+			else {
 				identifier = RECIPE_TEXTURE;
 			}
 
@@ -155,7 +149,8 @@ public class WoodcutterScreen extends HandledScreen<WoodcutterScreenHandler> {
 			this.scrollAmount = MathHelper.clamp(this.scrollAmount, 0.0F, 1.0F);
 			this.scrollOffset = (int)(this.scrollAmount * this.getMaxScroll() + 0.5) * 4;
 			return true;
-		} else {
+		} 
+		else {
 			return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
 		}
 	}
@@ -168,7 +163,6 @@ public class WoodcutterScreen extends HandledScreen<WoodcutterScreenHandler> {
 			this.scrollAmount = MathHelper.clamp(this.scrollAmount - f, 0.0F, 1.0F);
 			this.scrollOffset = (int)(this.scrollAmount * i + 0.5) * 4;
 		}
-
 		return true;
 	}
 

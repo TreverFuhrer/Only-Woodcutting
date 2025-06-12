@@ -31,10 +31,6 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 
     public static final int INPUT_ID = 0;
 	public static final int OUTPUT_ID = 1;
-	// private static final int INVENTORY_START = 2;
-	// private static final int INVENTORY_END = 29;
-	// private static final int OUTPUT_START = 29;
-	// private static final int OUTPUT_END = 38;
 	private final ScreenHandlerContext context;
 	private final Property selectedRecipe = Property.create();
 	private final World world;
@@ -137,7 +133,6 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 			this.selectedRecipe.set(id);
 			this.populateResult();
 		}
-
 		return true;
 	}
 
@@ -152,10 +147,6 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 			this.inputStack = itemStack.copy();
 			this.updateInput(inventory, itemStack);
 		}
-		System.out.println("=== All loaded woodcutting recipes ===");
-		for (RecipeEntry<WoodcuttingRecipe> recipe : this.world.getRecipeManager().listAllOfType(ModRecipes.WOODCUTTING)) {
-			System.out.println("Recipe: " + recipe.id());
-		}
 	}
 
 	private static WoodcuttingRecipeInput createRecipeInput(Inventory inventory) {
@@ -168,28 +159,18 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 		this.outputSlot.setStackNoCallbacks(ItemStack.EMPTY);
 		if (!stack.isEmpty()) {
 			this.availableRecipes = this.world.getRecipeManager().getAllMatches(ModRecipes.WOODCUTTING, createRecipeInput(input), this.world);
-			System.out.println("Woodcutter: Updating input with " + stack);
-			System.out.println("Woodcutter: Found " + this.availableRecipes.size() + " matching recipes");
-
-			for (RecipeEntry<WoodcuttingRecipe> entry : this.availableRecipes) {
-    			System.out.println("Matched recipe: " + entry.id() + " -> " + entry.value().getResult(null).getItem());
-			}
-		}
-		else {
-			System.out.println("Stack is empty");
 		}
 	}
 
 	void populateResult() {
 		if (!this.availableRecipes.isEmpty() && this.isInBounds(this.selectedRecipe.get())) {
 			RecipeEntry<WoodcuttingRecipe> recipeEntry = (RecipeEntry<WoodcuttingRecipe>)this.availableRecipes.get(this.selectedRecipe.get());
-			System.out.println("Populating result with recipe: " + recipeEntry.id());
 			ItemStack itemStack = recipeEntry.value().craft(createRecipeInput(this.input), this.world.getRegistryManager());
-			System.out.println("Craft result: " + itemStack);
 			if (itemStack.isItemEnabled(this.world.getEnabledFeatures())) {
 				this.output.setLastRecipe(recipeEntry);
 				this.outputSlot.setStackNoCallbacks(itemStack);
-			} else {
+			} 
+			else {
 				this.outputSlot.setStackNoCallbacks(ItemStack.EMPTY);
 			}
 		} 
@@ -267,6 +248,4 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 		this.output.removeStack(1);
 		this.context.run((world, pos) -> this.dropInventory(player, this.input));
 	}
- 
-
 }

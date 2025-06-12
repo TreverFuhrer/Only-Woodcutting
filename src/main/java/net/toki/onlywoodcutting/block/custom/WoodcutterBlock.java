@@ -57,7 +57,8 @@ public class WoodcutterBlock extends Block {
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
 		if (world.isClient) {
 			return ActionResult.SUCCESS;
-		} else {
+		} 
+		else {
 			player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
 			//player.incrementStat(Stats.INTERACT_WITH_STONECUTTER);
 			return ActionResult.CONSUME;

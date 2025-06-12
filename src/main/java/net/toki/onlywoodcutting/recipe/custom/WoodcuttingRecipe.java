@@ -20,7 +20,6 @@ public record WoodcuttingRecipe(Ingredient ingredient, ItemStack result) impleme
     
     @Override
     public boolean matches(WoodcuttingRecipeInput input, World world) {
-        if(world.isClient()) return false;
         return ingredient.test(input.getStackInSlot(0));
     }
 
