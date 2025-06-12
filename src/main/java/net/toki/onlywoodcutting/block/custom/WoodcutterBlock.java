@@ -30,6 +30,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.toki.onlywoodcutting.ModStats;
 import net.toki.onlywoodcutting.screen.custom.WoodcutterScreenHandler;
 
 public class WoodcutterBlock extends Block {
@@ -60,7 +61,7 @@ public class WoodcutterBlock extends Block {
 		} 
 		else {
 			player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
-			//player.incrementStat(Stats.INTERACT_WITH_STONECUTTER);
+			player.incrementStat(ModStats.WOODCUTTER_INTERACT);
 			return ActionResult.CONSUME;
 		}
 	}
@@ -116,7 +117,7 @@ public class WoodcutterBlock extends Block {
 		builder.add(FACING);
 	}
 
-	
+
 
 	@Override
 	protected boolean canPathfindThrough(BlockState state, NavigationType type) {

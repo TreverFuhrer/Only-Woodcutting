@@ -20,5 +20,6 @@ public class OnlyWoodcutting implements ModInitializer {
 		ModScreenHandlers.register();
 		ModRecipes.register();
 		ModRecipeSerializers.register();
+		ModStats.register();
 	}
 }
