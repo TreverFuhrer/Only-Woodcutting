@@ -116,6 +116,8 @@ public class WoodcutterBlock extends Block {
 		builder.add(FACING);
 	}
 
+	
+
 	@Override
 	protected boolean canPathfindThrough(BlockState state, NavigationType type) {
 		return false;
