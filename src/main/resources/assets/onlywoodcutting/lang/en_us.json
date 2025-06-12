@@ -1,4 +1,5 @@
 {
     "block.onlywoodcutting.woodcutter": "Woodcutter",
-    "container.woodcutter": "Woodcutter"
+    "container.woodcutter": "Woodcutter",
+    "stat.onlywoodcutting.interact_with_woodcutter": "Interactions with Woodcutter"
 }
