@@ -14,7 +14,7 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.toki.onlywoodcutting.OnlyWoodcutting;
-import net.toki.onlywoodcutting.recipe.custom.WoodcuttingRecipeJsonBuilder;
+import net.toki.onlywoodcutting.WoodcuttingRecipeJsonBuilder;
 
 public class WoodcuttingRecipeProvider extends FabricRecipeProvider {
 
@@ -67,15 +67,20 @@ public class WoodcuttingRecipeProvider extends FabricRecipeProvider {
     }
 
     private void offerWoodcuttingRecipe(RecipeExporter exporter, Item input, Item output, int count) {
-        String inputName = Registries.ITEM.getId(input).getPath();
+
+        String inputName  = Registries.ITEM.getId(input).getPath();
         String outputName = Registries.ITEM.getId(output).getPath();
 
-        new WoodcuttingRecipeJsonBuilder(
-                RecipeCategory.BUILDING_BLOCKS,
+        WoodcuttingRecipeJsonBuilder
+            .create(
                 Ingredient.ofItems(input),
+                RecipeCategory.BUILDING_BLOCKS,
                 output,
-                count
-        ).criterion("has_input", InventoryChangedCriterion.Conditions.items(input))
-         .offerTo(exporter, Identifier.of(OnlyWoodcutting.MOD_ID, inputName + "_to_" + outputName));
+                count)
+            .criterion("has_input",
+                InventoryChangedCriterion.Conditions.items(input))
+            .offerTo(exporter,
+                Identifier.of(OnlyWoodcutting.MOD_ID,
+                            inputName + "_to_" + outputName));
     }
 }
