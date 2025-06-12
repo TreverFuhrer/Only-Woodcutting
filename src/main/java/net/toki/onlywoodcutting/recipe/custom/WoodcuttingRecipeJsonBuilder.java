@@ -62,6 +62,7 @@ public class WoodcuttingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 	@Override
 	public void offerTo(RecipeExporter exporter, Identifier recipeId) {
 		validate(recipeId);
+
 		Advancement.Builder advancementBuilder = exporter.getAdvancementBuilder()
 			.criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId))
 			.rewards(AdvancementRewards.Builder.recipe(recipeId))
@@ -69,14 +70,11 @@ public class WoodcuttingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
 
 		this.criteria.forEach(advancementBuilder::criterion);
 
-		WoodcuttingRecipe recipe = new WoodcuttingRecipe(
-            this.input,
-            new ItemStack(this.output, this.count)
-        );
+		WoodcuttingRecipe recipe = new WoodcuttingRecipe(input, new ItemStack(output, count));
 
-
-		exporter.accept(recipeId, recipe, advancementBuilder.build(recipeId.withPrefixedPath("recipes/" + this.category.getName() + "/")));
+		exporter.accept(recipeId, recipe, advancementBuilder.build(recipeId.withPrefixedPath("recipes/" + category.getName() + "/")));
 	}
+
 
 	private void validate(Identifier id) {
 		if (this.criteria.isEmpty()) {
