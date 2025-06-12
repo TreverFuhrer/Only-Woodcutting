@@ -81,7 +81,7 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 				context.run((world, pos) -> {
 					long l = world.getTime();
 					if (WoodcutterScreenHandler.this.lastTakeTime != l) {
-						world.playSound(null, pos, SoundEvents.UI_LOOM_TAKE_RESULT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+						world.playSound(null, pos, SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, SoundCategory.BLOCKS, 1.0F, 1.0F);
 						WoodcutterScreenHandler.this.lastTakeTime = l;
 					}
 				});

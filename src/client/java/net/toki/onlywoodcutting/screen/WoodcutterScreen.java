@@ -124,7 +124,7 @@ public class WoodcutterScreen extends HandledScreen<WoodcutterScreenHandler> {
 				double d = mouseX - (i + m % 4 * 16);
 				double e = mouseY - (j + m / 4 * 18);
 				if (d >= 0.0 && e >= 0.0 && d < 16.0 && e < 18.0 && this.handler.onButtonClick(this.client.player, l)) {
-					MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_LOOM_SELECT_PATTERN, 1.0F));
+					MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_ON, 1.0F));
 					this.client.interactionManager.clickButton(this.handler.syncId, l);
 					return true;
 				}
