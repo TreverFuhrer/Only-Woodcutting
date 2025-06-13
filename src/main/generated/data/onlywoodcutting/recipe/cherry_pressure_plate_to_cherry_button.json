@@ -1,0 +1,10 @@
+{
+  "type": "onlywoodcutting:woodcutting",
+  "ingredient": {
+    "item": "minecraft:cherry_pressure_plate"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:cherry_button"
+  }
+}

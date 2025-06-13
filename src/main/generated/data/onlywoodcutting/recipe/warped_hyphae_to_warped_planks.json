@@ -1,0 +1,10 @@
+{
+  "type": "onlywoodcutting:woodcutting",
+  "ingredient": {
+    "item": "minecraft:warped_hyphae"
+  },
+  "result": {
+    "count": 4,
+    "id": "minecraft:warped_planks"
+  }
+}

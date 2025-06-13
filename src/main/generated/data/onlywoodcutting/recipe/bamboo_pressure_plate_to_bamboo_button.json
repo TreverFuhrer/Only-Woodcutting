@@ -1,0 +1,10 @@
+{
+  "type": "onlywoodcutting:woodcutting",
+  "ingredient": {
+    "item": "minecraft:bamboo_pressure_plate"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:bamboo_button"
+  }
+}

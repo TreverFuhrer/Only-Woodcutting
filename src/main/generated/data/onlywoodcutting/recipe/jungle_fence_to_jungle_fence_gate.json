@@ -1,0 +1,10 @@
+{
+  "type": "onlywoodcutting:woodcutting",
+  "ingredient": {
+    "item": "minecraft:jungle_fence"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:jungle_fence_gate"
+  }
+}
