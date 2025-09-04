@@ -11,8 +11,7 @@ public record WoodcuttingRecipeInput(ItemStack input) implements RecipeInput {
     }
 
     @Override
-    public int getSize() {
+    public int size() {
         return 1;
     }
-    
 }
