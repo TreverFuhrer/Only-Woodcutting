@@ -2,11 +2,13 @@ package net.toki.onlywoodcutting;
 
 import net.minecraft.advancement.*;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
-import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.recipe.CraftingRecipeJsonBuilder;
+import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.item.*;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.toki.onlywoodcutting.recipe.custom.WoodcuttingRecipe;
 
@@ -63,14 +65,16 @@ public class WoodcuttingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
     @Override public Item getOutputItem() { return output; }
 
     @Override
-    public void offerTo(RecipeExporter exporter, Identifier id) {
+    public void offerTo(RecipeExporter exporter, RegistryKey<Recipe<?>> recipeKey) {
         if (criteria.isEmpty())
-            throw new IllegalStateException("No way of obtaining recipe " + id);
+            throw new IllegalStateException("No way of obtaining recipe " + recipeKey);
+
+        Identifier id = recipeKey.getValue();
 
         // ---- advancement ----
         Advancement.Builder adv = exporter.getAdvancementBuilder()
-            .criterion("has_the_recipe", RecipeUnlockedCriterion.create(id))
-            .rewards(AdvancementRewards.Builder.recipe(id))
+            .criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeKey))
+            .rewards(AdvancementRewards.Builder.recipe(recipeKey))
             .criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
 
         criteria.forEach(adv::criterion);
@@ -78,6 +82,6 @@ public class WoodcuttingRecipeJsonBuilder implements CraftingRecipeJsonBuilder {
         // ---- the actual recipe record ----
         var recipe = new WoodcuttingRecipe(input, new ItemStack(output, count));
 
-        exporter.accept(id, recipe, adv.build(id.withPrefixedPath("recipe/" + category.getName() + "/")));  // 1.21 folder name
+        exporter.accept(recipeKey, recipe, adv.build(id.withPrefixedPath("recipe/" + category.getName() + "/")));  // 1.21 folder name
     }
 }

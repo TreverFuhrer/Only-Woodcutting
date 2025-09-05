@@ -1,9 +1,6 @@
 package net.toki.onlywoodcutting.screen.custom;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.collect.Lists;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -12,9 +9,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.ServerRecipeManager;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -33,24 +28,21 @@ import net.toki.onlywoodcutting.screen.ModScreenHandlers;
 
 public class WoodcutterScreenHandler extends ScreenHandler {
 
-    public static final int INPUT_ID = 0;
-    public static final int OUTPUT_ID = 1;
+    public static final int INPUT_ID = 0;   // handler slot id
+    public static final int OUTPUT_ID = 1;  // handler slot id
 
     private final ScreenHandlerContext context;
     private final Property selectedRecipe = Property.create();
     private final World world;
 
-    // NEW: cached match getter for quick “is there a match” checks
-    private final ServerRecipeManager.MatchGetter<WoodcuttingRecipeInput, WoodcuttingRecipe> matchGetter;
-
-    private List<RecipeEntry<WoodcuttingRecipe>> availableRecipes = Lists.newArrayList();
+    private List<RecipeEntry<WoodcuttingRecipe>> availableRecipes = List.of();
     private ItemStack inputStack = ItemStack.EMPTY;
     long lastTakeTime;
 
     final Slot inputSlot;
     final Slot outputSlot;
 
-    Runnable contentsChangedListener = () -> {};
+    private Runnable contentsChangedListener = () -> {};
 
     public final Inventory input = new SimpleInventory(1) {
         @Override
@@ -75,11 +67,8 @@ public class WoodcutterScreenHandler extends ScreenHandler {
         this.context = context;
         this.world = playerInventory.player.getWorld();
 
-        // initialize the cached match getter (safe to create on either side)
-        this.matchGetter = ServerRecipeManager.createCachedMatchGetter(ModRecipes.WOODCUTTING);
-
-        this.inputSlot = this.addSlot(new Slot(this.input, 0, 20, 33));
-        this.outputSlot = this.addSlot(new Slot(this.output, 1, 143, 33) {
+        this.inputSlot = this.addSlot(new Slot(this.input, /*inv idx*/ 0, 20, 33));
+        this.outputSlot = this.addSlot(new Slot(this.output, /*inv idx*/ 0, 143, 33) {
             @Override
             public boolean canInsert(ItemStack stack) {
                 return false;
@@ -89,16 +78,16 @@ public class WoodcutterScreenHandler extends ScreenHandler {
             public void onTakeItem(PlayerEntity player, ItemStack stack) {
                 stack.onCraftByPlayer(player, stack.getCount());
                 WoodcutterScreenHandler.this.output.unlockLastRecipe(player, this.getInputStacks());
-                ItemStack itemStack = WoodcutterScreenHandler.this.inputSlot.takeStack(1);
-                if (!itemStack.isEmpty()) {
+                ItemStack consumed = WoodcutterScreenHandler.this.inputSlot.takeStack(1);
+                if (!consumed.isEmpty()) {
                     WoodcutterScreenHandler.this.populateResult();
                 }
 
                 context.run((world, pos) -> {
-                    long l = world.getTime();
-                    if (WoodcutterScreenHandler.this.lastTakeTime != l) {
+                    long now = world.getTime();
+                    if (WoodcutterScreenHandler.this.lastTakeTime != now) {
                         world.playSound(null, pos, SoundEvents.BLOCK_WOODEN_BUTTON_CLICK_OFF, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                        WoodcutterScreenHandler.this.lastTakeTime = l;
+                        WoodcutterScreenHandler.this.lastTakeTime = now;
                     }
                 });
                 super.onTakeItem(player, stack);
@@ -109,6 +98,7 @@ public class WoodcutterScreenHandler extends ScreenHandler {
             }
         });
 
+        // Player inventory
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
                 this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
@@ -157,10 +147,10 @@ public class WoodcutterScreenHandler extends ScreenHandler {
 
     @Override
     public void onContentChanged(Inventory inventory) {
-        ItemStack itemStack = this.inputSlot.getStack();
-        if (!itemStack.isOf(this.inputStack.getItem())) {
-            this.inputStack = itemStack.copy();
-            this.updateInput(inventory, itemStack);
+        ItemStack current = this.inputSlot.getStack();
+        if (!current.isOf(this.inputStack.getItem())) {
+            this.inputStack = current.copy();
+            this.updateInput(inventory, current);
         }
     }
 
@@ -168,41 +158,29 @@ public class WoodcutterScreenHandler extends ScreenHandler {
         return new WoodcuttingRecipeInput(inventory.getStack(0));
     }
 
-    // CHANGED: compute matches on the SERVER using ServerRecipeManager
-    private void updateInput(Inventory input, ItemStack stack) {
-        this.availableRecipes.clear();
+    // Compute matches on the SERVER; client will be synced
+    private void updateInput(Inventory inv, ItemStack stack) {
+        this.availableRecipes = List.of();
         this.selectedRecipe.set(-1);
         this.outputSlot.setStackNoCallbacks(ItemStack.EMPTY);
 
-        if (stack.isEmpty() || this.world.isClient()) {
-            return; // only compute on the server; client will be synced
-        }
+        if (stack.isEmpty() || this.world.isClient()) return;
 
         ServerWorld sw = (ServerWorld) this.world;
-        ServerRecipeManager srm = sw.getRecipeManager();
-        WoodcuttingRecipeInput in = createRecipeInput(input);
+        WoodcuttingRecipeInput in = createRecipeInput(inv);
 
-        List<RecipeEntry<WoodcuttingRecipe>> matches = new ArrayList<>();
-        for (RecipeEntry<?> entry : srm.values()) { // all server recipes
-            Recipe<?> recipe = entry.value();
-            if (recipe.getType() == ModRecipes.WOODCUTTING) {
-                @SuppressWarnings("unchecked")
-                RecipeEntry<WoodcuttingRecipe> e = (RecipeEntry<WoodcuttingRecipe>) (RecipeEntry<?>) entry;
-                if (e.value().matches(in, sw)) {
-                    matches.add(e);
-                }
-            }
-        }
-        this.availableRecipes = matches;
+        this.availableRecipes = sw.getRecipeManager()
+                .getAllMatches(ModRecipes.WOODCUTTING, in, sw)
+                .toList();
     }
 
     void populateResult() {
         if (!this.availableRecipes.isEmpty() && this.isInBounds(this.selectedRecipe.get())) {
-            RecipeEntry<WoodcuttingRecipe> recipeEntry = this.availableRecipes.get(this.selectedRecipe.get());
-            ItemStack itemStack = recipeEntry.value().craft(createRecipeInput(this.input), this.world.getRegistryManager());
-            if (itemStack.isItemEnabled(this.world.getEnabledFeatures())) {
-                this.output.setLastRecipe(recipeEntry);
-                this.outputSlot.setStackNoCallbacks(itemStack);
+            RecipeEntry<WoodcuttingRecipe> entry = this.availableRecipes.get(this.selectedRecipe.get());
+            ItemStack out = entry.value().craft(createRecipeInput(this.input), this.world.getRegistryManager());
+            if (out.isItemEnabled(this.world.getEnabledFeatures())) {
+                this.output.setLastRecipe(entry);
+                this.outputSlot.setStackNoCallbacks(out);
             } else {
                 this.outputSlot.setStackNoCallbacks(ItemStack.EMPTY);
             }
@@ -217,8 +195,8 @@ public class WoodcutterScreenHandler extends ScreenHandler {
         return ModScreenHandlers.WOODCUTTER_SCREEN_HANDLER;
     }
 
-    public void setContentsChangedListener(Runnable contentsChangedListener) {
-        this.contentsChangedListener = contentsChangedListener;
+    public void setContentsChangedListener(Runnable listener) {
+        this.contentsChangedListener = listener != null ? listener : () -> {};
     }
 
     @Override
@@ -227,61 +205,50 @@ public class WoodcutterScreenHandler extends ScreenHandler {
     }
 
     @Override
-    public ItemStack quickMove(PlayerEntity player, int slot) {
-        ItemStack itemStack = ItemStack.EMPTY;
-        Slot slot2 = this.slots.get(slot);
-        if (slot2 != null && slot2.hasStack()) {
-            ItemStack itemStack2 = slot2.getStack();
-            Item item = itemStack2.getItem();
-            itemStack = itemStack2.copy();
+    public ItemStack quickMove(PlayerEntity player, int slotIndex) {
+        ItemStack ret = ItemStack.EMPTY;
+        Slot slot = this.slots.get(slotIndex);
+        if (slot != null && slot.hasStack()) {
+            ItemStack stack = slot.getStack();
+            Item item = stack.getItem();
+            ret = stack.copy();
 
-            if (slot == 1) {
-                item.onCraftByPlayer(itemStack2, player);
-                if (!this.insertItem(itemStack2, 2, 38, true)) {
+            if (slotIndex == OUTPUT_ID) {
+                item.onCraftByPlayer(stack, player);
+                if (!this.insertItem(stack, 2, 38, true)) return ItemStack.EMPTY;
+                slot.onQuickTransfer(stack, ret);
+
+            } else if (slotIndex == INPUT_ID) {
+                if (!this.insertItem(stack, 2, 38, false)) return ItemStack.EMPTY;
+
+            } else if (!this.world.isClient()) {
+                ServerWorld sw = (ServerWorld) this.world;
+                boolean hasMatch = sw.getRecipeManager()
+                        .getFirstMatch(ModRecipes.WOODCUTTING, createRecipeInput(this.input), sw)
+                        .isPresent();
+                if (hasMatch) {
+                    if (!this.insertItem(stack, 0, 1, false)) return ItemStack.EMPTY;
+                } else if (slotIndex >= 2 && slotIndex < 29) {
+                    if (!this.insertItem(stack, 29, 38, false)) return ItemStack.EMPTY;
+                } else if (slotIndex >= 29 && slotIndex < 38 && !this.insertItem(stack, 2, 29, false)) {
                     return ItemStack.EMPTY;
                 }
-                slot2.onQuickTransfer(itemStack2, itemStack);
-
-            } else if (slot == 0) {
-                if (!this.insertItem(itemStack2, 2, 38, false)) {
-                    return ItemStack.EMPTY;
-                }
-
-            } else if (!this.world.isClient()
-                    && this.matchGetter.getFirstMatch(createRecipeInput(this.input), (ServerWorld) this.world).isPresent()) {
-                // CHANGED: use cached match getter for the quick check
-                if (!this.insertItem(itemStack2, 0, 1, false)) {
-                    return ItemStack.EMPTY;
-                }
-
-            } else if (slot >= 2 && slot < 29) {
-                if (!this.insertItem(itemStack2, 29, 38, false)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (slot >= 29 && slot < 38 && !this.insertItem(itemStack2, 2, 29, false)) {
-                return ItemStack.EMPTY;
             }
 
-            if (itemStack2.isEmpty()) {
-                slot2.setStack(ItemStack.EMPTY);
-            }
+            if (stack.isEmpty()) slot.setStack(ItemStack.EMPTY);
+            slot.markDirty();
+            if (stack.getCount() == ret.getCount()) return ItemStack.EMPTY;
 
-            slot2.markDirty();
-            if (itemStack2.getCount() == itemStack.getCount()) {
-                return ItemStack.EMPTY;
-            }
-
-            slot2.onTakeItem(player, itemStack2);
+            slot.onTakeItem(player, stack);
             this.sendContentUpdates();
         }
-
-        return itemStack;
+        return ret;
     }
 
     @Override
     public void onClosed(PlayerEntity player) {
         super.onClosed(player);
-        this.output.removeStack(1);
+        this.output.removeStack(0); // result inventory has only slot 0
         this.context.run((world, pos) -> this.dropInventory(player, this.input));
     }
 }
