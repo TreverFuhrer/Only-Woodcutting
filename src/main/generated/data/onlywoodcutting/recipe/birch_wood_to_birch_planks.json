@@ -1,8 +1,6 @@
 {
   "type": "onlywoodcutting:woodcutting",
-  "ingredient": {
-    "item": "minecraft:birch_wood"
-  },
+  "ingredient": "minecraft:birch_wood",
   "result": {
     "count": 4,
     "id": "minecraft:birch_planks"

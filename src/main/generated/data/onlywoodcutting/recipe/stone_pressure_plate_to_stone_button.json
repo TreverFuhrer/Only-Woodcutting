@@ -1,8 +1,6 @@
 {
   "type": "onlywoodcutting:woodcutting",
-  "ingredient": {
-    "item": "minecraft:stone_pressure_plate"
-  },
+  "ingredient": "minecraft:stone_pressure_plate",
   "result": {
     "count": 1,
     "id": "minecraft:stone_button"

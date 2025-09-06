@@ -1,8 +1,6 @@
 {
   "type": "onlywoodcutting:woodcutting",
-  "ingredient": {
-    "item": "minecraft:birch_fence"
-  },
+  "ingredient": "minecraft:birch_fence",
   "result": {
     "count": 1,
     "id": "minecraft:birch_fence_gate"

@@ -2,12 +2,11 @@
 	"credit": "Made with Blockbench by Toki",
 	"parent": "block/block",
 	"textures": {
-		"particle": "onlywoodcutting:block/woodcutter_top",
 		"bottom": "onlywoodcutting:block/woodcutter_bottom",
+		"particle": "onlywoodcutting:block/woodcutter_top",
 		"top": "onlywoodcutting:block/woodcutter_top",
 		"side": "onlywoodcutting:block/woodcutter_side",
-		"saw": "onlywoodcutting:block/woodcutter_saw",
-		"log": "onlywoodcutting:block/woodcutter_log"
+		"saw": "onlywoodcutting:block/woodcutter_saw"
 	},
 	"elements": [
 		{
@@ -29,19 +28,6 @@
 			"faces": {
 				"north": {"uv": [1, 9, 15, 16], "texture": "#saw", "tintindex": 0},
 				"south": {"uv": [15, 9, 1, 16], "texture": "#saw", "tintindex": 0}
-			}
-		},
-		{
-			"from": [10, 9, 1],
-			"to": [13, 11, 8.9],
-			"rotation": {"angle": 0, "axis": "y", "origin": [11, 9, 3]},
-			"faces": {
-				"north": {"uv": [8, 1, 11, 3], "texture": "#log"},
-				"east": {"uv": [2, 1, 10, 3], "texture": "#log"},
-				"south": {"uv": [12, 1, 15, 3], "texture": "#log"},
-				"west": {"uv": [0, 1, 8, 3], "texture": "#log"},
-				"up": {"uv": [0, 0, 3, 6], "texture": "#log"},
-				"down": {"uv": [0, 0, 3, 6], "texture": "#log"}
 			}
 		}
 	]

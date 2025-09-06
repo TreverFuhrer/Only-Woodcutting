@@ -1,8 +1,6 @@
 {
   "type": "onlywoodcutting:woodcutting",
-  "ingredient": {
-    "item": "minecraft:crimson_fence"
-  },
+  "ingredient": "minecraft:crimson_fence",
   "result": {
     "count": 1,
     "id": "minecraft:crimson_fence_gate"

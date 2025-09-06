@@ -1,8 +1,6 @@
 {
   "type": "onlywoodcutting:woodcutting",
-  "ingredient": {
-    "item": "minecraft:jungle_wood"
-  },
+  "ingredient": "minecraft:jungle_wood",
   "result": {
     "count": 1,
     "id": "minecraft:stripped_jungle_wood"

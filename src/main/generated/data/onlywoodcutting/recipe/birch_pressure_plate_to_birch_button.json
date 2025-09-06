@@ -1,8 +1,6 @@
 {
   "type": "onlywoodcutting:woodcutting",
-  "ingredient": {
-    "item": "minecraft:birch_pressure_plate"
-  },
+  "ingredient": "minecraft:birch_pressure_plate",
   "result": {
     "count": 1,
     "id": "minecraft:birch_button"

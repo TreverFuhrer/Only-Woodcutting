@@ -1,8 +1,6 @@
 {
   "type": "onlywoodcutting:woodcutting",
-  "ingredient": {
-    "item": "minecraft:warped_slab"
-  },
+  "ingredient": "minecraft:warped_slab",
   "result": {
     "count": 1,
     "id": "minecraft:warped_pressure_plate"

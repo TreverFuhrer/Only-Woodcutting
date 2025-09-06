@@ -3,6 +3,7 @@ package net.toki.onlywoodcutting.block;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.item.BlockItem;
@@ -53,6 +54,6 @@ public final class ModBlocks {
     public static void register() {
         OnlyWoodcutting.LOGGER.info("Registering Mod Blocks for " + OnlyWoodcutting.MOD_ID);
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL)
-                .register(entries -> entries.add(ModBlocks.WOODCUTTER));
+                .register(entries -> entries.addAfter(Blocks.STONECUTTER, ModBlocks.WOODCUTTER));
     }
 }

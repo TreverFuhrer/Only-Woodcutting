@@ -1,8 +1,6 @@
 {
   "type": "onlywoodcutting:woodcutting",
-  "ingredient": {
-    "item": "minecraft:warped_fence"
-  },
+  "ingredient": "minecraft:warped_fence",
   "result": {
     "count": 1,
     "id": "minecraft:warped_fence_gate"

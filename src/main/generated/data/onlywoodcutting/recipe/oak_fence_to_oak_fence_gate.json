@@ -1,8 +1,6 @@
 {
   "type": "onlywoodcutting:woodcutting",
-  "ingredient": {
-    "item": "minecraft:oak_fence"
-  },
+  "ingredient": "minecraft:oak_fence",
   "result": {
     "count": 1,
     "id": "minecraft:oak_fence_gate"

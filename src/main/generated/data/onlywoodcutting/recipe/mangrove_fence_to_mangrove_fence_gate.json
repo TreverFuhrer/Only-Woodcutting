@@ -1,8 +1,6 @@
 {
   "type": "onlywoodcutting:woodcutting",
-  "ingredient": {
-    "item": "minecraft:mangrove_fence"
-  },
+  "ingredient": "minecraft:mangrove_fence",
   "result": {
     "count": 1,
     "id": "minecraft:mangrove_fence_gate"

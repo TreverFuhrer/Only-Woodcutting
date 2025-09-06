@@ -1,20 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "pattern": [
     " L ",
     "PSP",
     "   "
   ],
   "key": {
-    "P": {
-      "item": "minecraft:oak_planks"
-    },
-    "L": {
-      "item": "minecraft:iron_ingot"
-    },
-    "S": {
-      "item": "minecraft:stone"
-    }
+    "P": "#minecraft:planks",
+    "L": "minecraft:iron_ingot",
+    "S": "minecraft:stone"
   },
   "result": {
     "id": "onlywoodcutting:woodcutter",

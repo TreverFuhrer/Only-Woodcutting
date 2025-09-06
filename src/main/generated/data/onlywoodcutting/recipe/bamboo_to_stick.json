@@ -1,8 +1,6 @@
 {
   "type": "onlywoodcutting:woodcutting",
-  "ingredient": {
-    "item": "minecraft:bamboo"
-  },
+  "ingredient": "minecraft:bamboo",
   "result": {
     "count": 1,
     "id": "minecraft:stick"
